@@ -1,0 +1,29 @@
+#!/bin/bash
+
+### Desription: CPU stress test - creates processes that stress the CPU to max
+### Prereqs: stress needs to be installed first
+
+### Recommended to run as nohup ./stress.sh & to keep it in the background
+
+# Variables
+PROC=4 #nr of processes
+CYCLES=5 #nr of cycles
+STRESS=200 #stress length intereval for random function + 30 (minimmum time)
+SLEEP=30 #sleep random interval + 10 (minnimum time)
+
+echo "Starting stress test in $CYCLES cycles using $PROC processes"
+echo "#####################################################"
+echo "You can use top command to check the processes are working"
+
+
+for i in $(eval echo "{1..$CYCLES}")
+do
+    #strees test in range 30 - 230 seconds
+    stress -c $PROC -t $(( $RANDOM % $STRESS + 30))
+    # sleep for 10-50 seconds
+    sleep $(( $RANDOM % $SLEEP + 10 ))
+    echo "Stress $i cycle completed"
+done
+
+
+echo "Stress test completed"
